@@ -1,0 +1,22 @@
+{
+    "name": "tarekdj/micro-framework-example",
+    "authors": [
+        {
+            "name": "Tarek Djebali",
+            "email": "tarekdj@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/http-foundation": "^5.0",
+        "nikic/fast-route": "^1.3",
+        "vlucas/phpdotenv": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "DIExample\\": "src/"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.0"
+    }
+}
