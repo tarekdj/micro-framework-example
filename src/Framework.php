@@ -2,6 +2,7 @@
 
 namespace DIExample;
 
+use DI\Container;
 use FastRoute\RouteCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,17 +34,24 @@ class Framework
     protected $routes;
 
     /**
+     *
+     * @var \DI\Container
+     */
+    protected $container;
+
+    /**
      * Framework constructor.
      *
-     * @param Request $request
-     * @param Response $response
+     * @param \DI\Container $container
      * @throws \Exception
      */
-    public function __construct(Request $request, Response $response)
+    public function __construct(Container $container)
     {
-        $this->request = $request;
-        $this->response = $response;
-        $this->currentRequest = Request::createFromGlobals();
+        $this->container = $container;
+        // Get default services from the container.
+        $this->request = $container->get('request');
+        $this->response = $container->get('response');
+        $this->currentRequest = $container->get('current_request');
     }
 
     /**

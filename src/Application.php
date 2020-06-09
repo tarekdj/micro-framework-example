@@ -4,6 +4,7 @@ namespace DIExample;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use DI\ContainerBuilder;
 
 class Application
 {
@@ -13,6 +14,17 @@ class Application
      */
     public static function create()
     {
-        return new Framework(new Request, new Response);
+        // Build a Lightweight container.
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(false);
+        $builder->useAnnotations(false);
+        $container = $builder->build();
+
+        // Add the required services to boot the framework.
+        $container->set('request', new Request);
+        $container->set('response', new Response);
+        $container->set('current_request', Request::createFromGlobals());
+
+        return new Framework($container);
     }
 }
