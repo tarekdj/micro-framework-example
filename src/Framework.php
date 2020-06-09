@@ -130,6 +130,8 @@ class Framework
                 // Route found, handle the callback.
                 $handler = $routeInfo[1];
                 $vars = $routeInfo[2];
+                // Inject the container inside the callback args.
+                $vars['_container'] = $this->container;
                 call_user_func($handler, $vars);
                 break;
         }

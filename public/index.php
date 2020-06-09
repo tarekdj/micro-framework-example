@@ -4,7 +4,11 @@ require __DIR__ . '/../bootstrap.php';
 
 $app = \DIExample\Application::create();
 
-$app->get('/', function () {
+$app->get('/', function ($args) {
+    // Get the container.
+    /** @var \DI\Container $container */
+    $container = $args['_container'];
+    // use $container->get('SERVICE_NAME') to load a service.
     echo "Hello world";
 });
 
