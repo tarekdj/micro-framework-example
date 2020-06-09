@@ -40,6 +40,11 @@ class Framework
     protected $container;
 
     /**
+     * @var array
+     */
+    protected $externalServices = [];
+
+    /**
      * Framework constructor.
      *
      * @param \DI\Container $container
@@ -74,8 +79,28 @@ class Framework
      */
     public function boot()
     {
+        // build the container.
+        foreach ($this->externalServices as $key => $definition) {
+            $this->container->set($key, $definition);
+        }
+
         // Build the router.
         $this->buildRoutes();
+    }
+
+    /**
+     * @param string $key
+     * @param $definition
+     * @throws \Exception
+     */
+    public function useService(string $key, $definition)
+    {
+        // Prevent from altering default services.
+        if (in_array($key, ['request', 'response', 'current_request'])) {
+            throw new \Exception('Cannot override core service.');
+        }
+
+        $this->externalServices[$key] = $definition;
     }
 
     /**
